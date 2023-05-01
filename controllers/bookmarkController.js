@@ -7,6 +7,7 @@ const {
   deleteBookmark,
   updateBookmark,
 } = require("../queries/bookmarks");
+const { checkRequest, checkId } = require('../validations/checkBookmarks')
 // const bookmarkArray = require("../Models/bookmark.js");
 
 //GET ROUTE
@@ -22,7 +23,7 @@ bookmark.get("/", async (req, res) => {
 });
 
 //GET ONE ROUTE
-bookmark.get("/:id", async (req, res) => {
+bookmark.get("/:id", checkId, async (req, res) => {
   const { id } = req.params;
   const bookmark = await getABookmark(id);
 
@@ -34,7 +35,7 @@ bookmark.get("/:id", async (req, res) => {
 });
 
 //CREATE ROUTE
-bookmark.post("/", async (req, res) => {
+bookmark.post("/", checkRequest, async (req, res) => {
   //this will require a 'body' like a template for what object or data it will return
   const newBookmark = req.body;
 
@@ -47,7 +48,7 @@ bookmark.post("/", async (req, res) => {
 });
 
 //DELETE ROUTE
-bookmark.delete("/:id", async (req, res) => {
+bookmark.delete("/:id", checkId, async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -59,7 +60,7 @@ bookmark.delete("/:id", async (req, res) => {
 });
 
 //UPDATE ROUTE
-bookmark.put("/:id", async (req, res) => {
+bookmark.put("/:id", checkRequest, checkId, async (req, res) => {
   const { id } = req.params;
 
   // Retrieve the bookmark to update

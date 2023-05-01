@@ -15,3 +15,16 @@ CREATE TABLE bookmarks (
     category TEXT,
     is_favorite BOOLEAN
 );
+-- always drop the table if it exists
+DROP TABLE IF EXISTS reviews;
+
+-- Create a table for our bookmarks reviews
+CREATE TABLE reviews (
+    id SERIAL PRIMARY KEY,
+    reviewer TEXT,
+    title TEXT,
+    content TEXT,
+    rating INT CHECK (rating >= 1 AND rating <= 5),
+    bookmark_id INTEGER REFERENCES bookmarks (id)
+    ON DELETE CASCADE
+);
